@@ -928,8 +928,19 @@ A convenience version of Compose.draw without having to call render
 * backend: The Compose.Backend object
 * p: The Plot object
 """
-function draw(backend::Compose.Backend, p::Plot)
-    draw(backend, render(p))
+function draw(backend::Compose.Backend, plot::Plot)
+		(plot, coord, plot_aes,
+		 layer_aess, layer_stats, layer_subplot_aess, layer_subplot_datas,
+		 scales, guides) = render_prepare(plot)
+
+		root_context = render_prepared(plot, coord, plot_aes, layer_aess,
+																	 layer_stats, layer_subplot_aess,
+																	 layer_subplot_datas,
+																	 scales, guides)
+
+		ctx =  pad_inner(root_context, plot.theme.plot_padding)
+
+		draw(backend, ctx, plot.theme.plot_padding, plot.theme.background_color)
 end
 
 

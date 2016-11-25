@@ -644,7 +644,7 @@ function render(guide::XTicks, theme::Gadfly.Theme,
                                labels...)
     label_widths = [width for (width, height) in label_sizes]
     label_heights = [height for (width, height) in label_sizes]
-
+		
     padding = 1mm
 
     hlayout = ctxpromise() do draw_context
@@ -928,15 +928,15 @@ function render(guide::XLabel, theme::Gadfly.Theme,
 
     padding = 3mm
     hlayout = ctxpromise() do draw_context
-        return compose!(context(),
-                        text(0.5w, 0h + padding, guide.label, hcenter, vtop),
+        return compose!(context(0,padding),
+                        text(0.5w, 0h, guide.label, hcenter, vtop),
                         stroke(nothing),
                         fill(theme.major_label_color),
                         font(theme.major_label_font),
                         fontsize(theme.major_label_font_size))
     end
-    hlayout_context = compose!(context(minwidth=text_width + 2padding,
-                                       minheight=text_height + 2padding),
+    hlayout_context = compose!(context(minwidth=text_width,
+                                       minheight=text_height + padding),
                                hlayout)
 
     vlayout = ctxpromise() do draw_context
